@@ -1,10 +1,33 @@
 .sidebarButton {
   position: fixed;
-  bottom: 9px;
-  right: 15px;
+  bottom: 20px;
+  right: 20px;
   z-index: 1000;
   font-size: 24px;
-  opacity: 0.5;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.8;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.sidebarButton:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.sidebarButton.active {
+  background: rgba(255, 255, 255, 0.25);
+  opacity: 1;
 }
 
 .sidebar {
@@ -13,16 +36,18 @@
   right: 0;
   width: 300px;
   height: 100vh;
-  background-color: #1a1a1a;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
   color: #f0f0f0;
   padding-top: 50px;
-  box-shadow: -3px 0 8px rgba(0, 0, 0, 0.2);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
   z-index: 5000;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(100%);
 }
 .sidebar.open {
@@ -32,17 +57,26 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  background: none;
-  border: none;
-  color: #aaa;
-  font-size: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   line-height: 1;
-  padding: 5px;
+  padding: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 .sidebar .closeButton:hover {
-  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 .sidebar h2 {
   margin: 0;
@@ -50,7 +84,7 @@
   font-size: 1.1em;
   font-weight: 600;
   color: #fff;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 10px;
 }
 .sidebar ul {
@@ -61,13 +95,17 @@
   gap: 10px;
 }
 .sidebar ul li {
-  padding: 8px 15px;
+  padding: 12px 15px;
   font-size: 0.85em;
   line-height: 1.4;
-  color: #ccc;
-  border-bottom: 1px solid #303030;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
+  transition: all 0.2s ease;
+  margin: 4px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
 }
 .sidebar ul li p {
   display: -webkit-box;
@@ -76,16 +114,20 @@
   overflow: hidden;
 }
 .sidebar ul li:hover {
-  background-color: #2a2a2a;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  transform: translateX(-4px);
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .sidebar ul li .thumbnail {
   width: 40px;
   height: 40px;
   object-fit: cover;
-  margin-right: 10px;
-  border-radius: 3px;
-  background-color: #2a2a2a;
+  margin-right: 12px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .sidebar ul li:last-child {
   border-bottom: none;
@@ -102,9 +144,25 @@
 }
 
 :root {
-  background: #111;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
   font-family: "Google Sans Display", sans-serif;
+  min-height: 100vh;
+}
+
+/* Enhanced glassmorphism background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  z-index: -1;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -124,6 +182,7 @@ input, textarea {
   font-size: 18px;
   resize: none;
   user-select: text;
+  pointer-events: auto;
 }
 input::placeholder, textarea::placeholder {
   user-select: none;
@@ -142,22 +201,36 @@ select {
 
 button {
   font-family: "Google Sans Display", sans-serif;
-  background: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   color: #fff;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   font-size: 16px;
   cursor: pointer;
   user-select: none;
   display: flex;
   align-items: center;
   gap: 5px;
+  padding: 8px 16px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 button:focus {
   outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
+}
+button[disabled]:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.1);
 }
 button .icon {
   display: block;
@@ -203,6 +276,8 @@ footer {
 footer .controls, footer input, footer .input {
   max-width: 600px;
   position: relative;
+  z-index: 101;
+  pointer-events: auto;
 }
 footer select {
   font-size: 12px;
@@ -212,22 +287,39 @@ footer select:focus {
   outline: none;
 }
 footer input {
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 100px;
-  font-size: 18px;
-  padding: 10px 20px;
-  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(20px) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 100px !important;
+  font-size: 18px !important;
+  padding: 16px 24px !important;
+  width: 100% !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+  color: #fff !important;
+  outline: none !important;
+  pointer-events: auto !important;
+  user-select: text !important;
+}
+
+footer input:focus {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+footer input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 footer .spinner, footer .clearButton {
   position: absolute;
-  right: 16px;
+  right: 20px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 footer .spinner.active, footer .clearButton.active {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 footer > div {
   display: flex;
@@ -238,15 +330,40 @@ footer > div {
   width: 100%;
 }
 footer > div button {
-  opacity: 0.5;
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+footer > div button:hover {
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.15);
 }
 footer > div button.active {
   opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .clearButton {
   font-size: 30px;
   top: 2px;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 50% !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  transition: all 0.2s ease !important;
+}
+
+.clearButton:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.05) !important;
 }
 
 .controls {
@@ -278,31 +395,37 @@ footer > div button.active {
 }
 
 .caption {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  padding: 10px;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 16px 20px;
+  border-radius: 16px;
   font-size: 16px;
   line-height: 1.5;
   text-align: center;
   width: fit-content;
   max-width: 800px;
   opacity: 1;
-  transition: opacity 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 .caption button {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
   font-size: 20px;
-  padding: 4px;
-  border-radius: 100px;
+  padding: 6px;
+  border-radius: 50%;
   opacity: 1;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
 }
 .caption button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
 }
 .caption button .icon {
   color: #fff;
