@@ -7,6 +7,7 @@ import c from "clsx";
 import PhotoViz from "./PhotoViz";
 import useStore from "./store";
 import Sidebar from "./Sidebar";
+import LoadingSpinner from "./LoadingSpinner";
 
 import {
   setLayout,
@@ -73,11 +74,10 @@ export default function App() {
               }
             }}
             ref={inputRef}
-            placeholder={`Search images for… “${searchPresets[searchPresetIdx]}”`}
+            placeholder={`Search images for… "${searchPresets[searchPresetIdx]}"`}
           />
-          <div
-            className={c("spinner", { active: isFetching })}
-          />
+          {/* Modern loading spinner - try different types: 'spinner', 'dots', 'pulse', 'bars' */}
+          <LoadingSpinner type="spinner" active={isFetching} />
           <button
             onClick={() => {
               clearQuery();

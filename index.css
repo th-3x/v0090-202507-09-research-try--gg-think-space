@@ -312,16 +312,44 @@ footer input:focus {
 footer input::placeholder {
   color: rgba(255, 255, 255, 0.7) !important;
 }
-footer .spinner, footer .clearButton {
+/* Modern CSS Spinner */
+footer .spinner {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: modernSpin 1s linear infinite;
+}
+
+footer .spinner.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+footer .clearButton {
   position: absolute;
   right: 20px;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-footer .spinner.active, footer .clearButton.active {
+
+footer .clearButton.active {
   opacity: 0.9;
   visibility: visible;
+}
+
+@keyframes modernSpin {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
 }
 footer > div {
   display: flex;
@@ -439,4 +467,125 @@ footer > div button.active {
 }
 .caption:empty {
   opacity: 0;
+}
+/* Alternative: Pulsing Dots Loader */
+.dots-loader {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dots-loader.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dots-loader .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  animation: dotPulse 1.4s ease-in-out infinite both;
+}
+
+.dots-loader .dot:nth-child(1) { animation-delay: -0.32s; }
+.dots-loader .dot:nth-child(2) { animation-delay: -0.16s; }
+.dots-loader .dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/* Pulse Ring Loader */
+.pulse-loader {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pulse-loader.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pulse-loader .pulse-ring {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: pulseRing 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+.pulse-loader .pulse-ring:nth-child(2) { animation-delay: 0.4s; }
+.pulse-loader .pulse-ring:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.1);
+    opacity: 1;
+  }
+  80%, 100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Bars Loader */
+.bars-loader {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bars-loader.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bars-loader .bar {
+  width: 2px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.8);
+  animation: barStretch 1.2s ease-in-out infinite;
+}
+
+.bars-loader .bar:nth-child(1) { animation-delay: -0.4s; }
+.bars-loader .bar:nth-child(2) { animation-delay: -0.3s; }
+.bars-loader .bar:nth-child(3) { animation-delay: -0.2s; }
+.bars-loader .bar:nth-child(4) { animation-delay: -0.1s; }
+
+@keyframes barStretch {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 }
