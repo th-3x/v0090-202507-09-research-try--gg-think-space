@@ -58,6 +58,10 @@ export const queryLlm = async ({prompt, image: imageUrl}) => {
     }
   }
 
+  // log when searching
+  // console.log('contentParts: ', contentParts);
+  
+
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
     contents: contentParts,
