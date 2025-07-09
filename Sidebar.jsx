@@ -2,6 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
+import React from "react";
 import c from "clsx";
 import useStore from "./store";
 import { setSidebarOpen, setTargetImage } from "./actions";

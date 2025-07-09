@@ -2,6 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
+import React from 'react'
 import {Canvas, useFrame, useThree} from '@react-three/fiber'
 import {TrackballControls} from '@react-three/drei'
 import {useRef, useState, useEffect} from 'react'
