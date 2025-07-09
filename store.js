@@ -22,6 +22,10 @@ export default createSelectorFunctions(
       targetImage: null,
       caption: null,
       resetCam: false,
+      // Camera position history for go-back functionality
+      cameraHistory: [],
+      canGoBack: false,
+      triggerGoBack: null,
     }))
   )
 )

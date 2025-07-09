@@ -385,6 +385,39 @@ footer > div button.active {
   align-items: center;
   justify-content: center;
 }
+
+.controls > div:first-child {
+  justify-content: flex-start;
+}
+
+.goBackButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.goBackButton.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.goBackButton.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.goBackButton:not(.disabled):hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
 .controls label {
   display: flex;
   gap: 4px;

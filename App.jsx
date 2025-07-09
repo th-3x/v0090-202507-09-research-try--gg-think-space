@@ -14,6 +14,7 @@ import {
   clearQuery,
   setXRayMode,
   toggleSidebar,
+  triggerGoBack,
 } from "./actions";
 
 const searchPresets = [
@@ -30,6 +31,7 @@ export default function App() {
   const caption = useStore.use.caption();
   const isSidebarOpen = useStore.use.isSidebarOpen();
   const highlightNodes = useStore.use.highlightNodes();
+  const canGoBack = useStore.use.canGoBack();
   const [value, setValue] = useState("");
   const [searchPresetIdx, setSearchPresetIdx] = useState(0)
   const inputRef = useRef(null);
@@ -91,7 +93,16 @@ export default function App() {
         </div>
 
         <div className="controls">
-          <div></div>
+          <div>
+            <button
+              onClick={triggerGoBack}
+              className={c("goBackButton", { active: canGoBack, disabled: !canGoBack })}
+              disabled={!canGoBack}
+              title="Go back to previous zoom position"
+            >
+              ← back
+            </button>
+          </div>
           <div>
             <button
               onClick={() => setLayout("sphere")}

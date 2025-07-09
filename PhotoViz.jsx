@@ -9,7 +9,7 @@ import {useRef, useState, useEffect} from 'react'
 import {animate} from 'motion'
 import useStore from './store'
 import PhotoNode from './PhotoNode'
-import {setTargetImage} from './actions'
+import {setTargetImage, saveCameraPosition, goBackToPreviousPosition} from './actions'
 
 function SceneContent() {
   const images = useStore.use.images()
@@ -19,6 +19,7 @@ function SceneContent() {
   const targetImage = useStore.use.targetImage()
   const xRayMode = useStore.use.xRayMode()
   const resetCam = useStore.use.resetCam()
+  const triggerGoBack = useStore.use.triggerGoBack()
   const {camera} = useThree()
   const groupRef = useRef()
   const controlsRef = useRef()
@@ -47,6 +48,88 @@ function SceneContent() {
     restartInactivityTimer()
   }
 
+  const handleGoBackToPreviousPosition = () => {
+    const previousPosition = goBackToPreviousPosition()
+    if (!previousPosition || !camera || !controlsRef.current) {
+      return
+    }
+
+    setIsAutoRotating(false)
+    clearTimeout(inactivityTimerRef.current)
+    rotationVelocityRef.current = 0
+
+    const duration = 0.8
+    const ease = 'easeInOut'
+
+    // Animate camera back to previous position
+    const cameraAnimations = [
+      animate(camera.position.x, previousPosition.cameraPosition.x, {
+        duration,
+        ease,
+        onUpdate: latest => (camera.position.x = latest)
+      }),
+      animate(camera.position.y, previousPosition.cameraPosition.y, {
+        duration,
+        ease,
+        onUpdate: latest => (camera.position.y = latest)
+      }),
+      animate(camera.position.z, previousPosition.cameraPosition.z, {
+        duration,
+        ease,
+        onUpdate: latest => (camera.position.z = latest)
+      })
+    ]
+
+    // Animate controls target back to previous position
+    const currentControlsTarget = controlsRef.current.target.clone()
+    const controlsAnimations = [
+      animate(currentControlsTarget.x, previousPosition.controlsTarget.x, {
+        duration,
+        ease,
+        onUpdate: latest => {
+          if (controlsRef.current) {
+            controlsRef.current.target.x = latest
+          }
+        }
+      }),
+      animate(currentControlsTarget.y, previousPosition.controlsTarget.y, {
+        duration,
+        ease,
+        onUpdate: latest => {
+          if (controlsRef.current) {
+            controlsRef.current.target.y = latest
+          }
+        }
+      }),
+      animate(currentControlsTarget.z, previousPosition.controlsTarget.z, {
+        duration,
+        ease,
+        onUpdate: latest => {
+          if (controlsRef.current) {
+            controlsRef.current.target.z = latest
+          }
+        }
+      })
+    ]
+
+    const allAnimations = [...cameraAnimations, ...controlsAnimations]
+
+    Promise.all(allAnimations.map(a => a.finished)).then(() => {
+      if (controlsRef.current && camera) {
+        camera.position.set(
+          previousPosition.cameraPosition.x,
+          previousPosition.cameraPosition.y,
+          previousPosition.cameraPosition.z
+        )
+        controlsRef.current.target.set(
+          previousPosition.controlsTarget.x,
+          previousPosition.controlsTarget.y,
+          previousPosition.controlsTarget.z
+        )
+      }
+    })
+  }
+
   useEffect(() => {
     if (
       targetImage &&
@@ -56,6 +139,9 @@ function SceneContent() {
       controlsRef.current &&
       groupRef.current
     ) {
+      // Save current camera position before zooming to image
+      saveCameraPosition(camera.position, controlsRef.current.target)
+
       setIsAutoRotating(false)
       clearTimeout(inactivityTimerRef.current)
       rotationVelocityRef.current = 0
@@ -272,6 +358,17 @@ function SceneContent() {
       state.resetCam = false;
     })
   }, [layout, camera, resetCam])
+
+  // Handle go back trigger
+  useEffect(() => {
+    if (triggerGoBack) {
+      handleGoBackToPreviousPosition()
+      // Reset the trigger
+      useStore.setState(state => {
+        state.triggerGoBack = null
+      })
+    }
+  }, [triggerGoBack])
 
   useFrame((_, delta) => {
     let currentVelocity = rotationVelocityRef.current

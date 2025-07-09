@@ -144,4 +144,62 @@ export const setSidebarOpen = isOpen =>
     state.isSidebarOpen = isOpen
   })
 
+// Camera history management functions
+export const saveCameraPosition = (cameraPosition, controlsTarget) => {
+  set(state => {
+    // Save current camera position to history
+    const newHistoryEntry = {
+      cameraPosition: {
+        x: cameraPosition.x,
+        y: cameraPosition.y,
+        z: cameraPosition.z
+      },
+      controlsTarget: {
+        x: controlsTarget.x,
+        y: controlsTarget.y,
+        z: controlsTarget.z
+      },
+      timestamp: Date.now()
+    }
+
+    // Keep only the last 10 positions to avoid memory issues
+    state.cameraHistory = [...state.cameraHistory, newHistoryEntry].slice(-10)
+    state.canGoBack = state.cameraHistory.length > 0
+  })
+}
+
+export const goBackToPreviousPosition = () => {
+  const currentState = get()
+  if (currentState.cameraHistory.length === 0) {
+    console.warn('No previous camera position to go back to')
+    return null
+  }
+
+  // Get the last camera position from history
+  const previousPosition = currentState.cameraHistory[currentState.cameraHistory.length - 1]
+
+  // Remove the last position from history
+  set(state => {
+    state.cameraHistory = state.cameraHistory.slice(0, -1)
+    state.canGoBack = state.cameraHistory.length > 0
+    state.targetImage = null // Clear any selected image
+  })
+
+  return previousPosition
+}
+
+export const clearCameraHistory = () => {
+  set(state => {
+    state.cameraHistory = []
+    state.canGoBack = false
+  })
+}
+
+// Trigger go back action - this will be handled by PhotoViz component
+export const triggerGoBack = () => {
+  set(state => {
+    state.triggerGoBack = Date.now() // Use timestamp to trigger effect
+  })
+}
+
 init()
