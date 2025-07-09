@@ -35,12 +35,19 @@ export default function App() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() =>
-      setSearchPresetIdx(n => n === searchPresets.length - 1 ? 0 : n + 1)
-    , 5000)
+    const interval = setInterval(() => {
+      setSearchPresetIdx(n => {
+        const nextIdx = n === searchPresets.length - 1 ? 0 : n + 1;
+        console.log('Search preset cycling:', searchPresets[nextIdx]);
+        return nextIdx;
+      });
+    }, 5000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
+
+  // Debug current preset
+  console.log('Current search preset:', searchPresets[searchPresetIdx]);
 
   return (
     <main>
@@ -69,7 +76,7 @@ export default function App() {
             placeholder={`Search images for… “${searchPresets[searchPresetIdx]}”`}
           />
           <img
-            src="https://storage.googleapis.com/experiments-uploads/g2demos/photo-applet/spinner.svg"
+            src="/spinner.svg"
             className={c("spinner", { active: isFetching })}
           />
           <button

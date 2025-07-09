@@ -61,18 +61,39 @@ export const sendQuery = async query => {
     state.resetCam = true
     state.caption = null
   })
+  
   try {
-    const res = await queryLlm({prompt: queryPrompt(get().images, query)})
-    try{
-      const resJ = JSON.parse(res.replace('```json','').replace('```',''));
+    // Check if we have a real API key
+    if (process.env.GEMINI_API_KEY === 'PLACEHOLDER_API_KEY') {
+      // Mock response for testing
+      console.log('Using mock response - please set a real GEMINI_API_KEY');
+      const mockResponse = {
+        filenames: get().images.slice(0, 5).map(img => img.id), // Highlight first 5 images
+        commentary: `Mock search results for "${query}". Please set a real Gemini API key in .env.local to enable actual AI search.`
+      };
+      
       set(state => {
-        state.highlightNodes = resJ.filenames
-        state.caption = resJ.commentary
-      })
-    }catch(e){
-      console.error(e)
+        state.highlightNodes = mockResponse.filenames
+        state.caption = mockResponse.commentary
+      });
+    } else {
+      // Real API call
+      const res = await queryLlm({prompt: queryPrompt(get().images, query)})
+      try{
+        const resJ = JSON.parse(res.replace('```json','').replace('```',''));
+        set(state => {
+          state.highlightNodes = resJ.filenames
+          state.caption = resJ.commentary
+        })
+      }catch(e){
+        console.error(e)
+      }
     }
-
+  } catch (error) {
+    console.error('Search error:', error);
+    set(state => {
+      state.caption = 'Search failed. Please check your API key and try again.'
+    });
   } finally {
     set(state => {
       state.isFetching = false
