@@ -1,11 +1,13 @@
-# Phase 1 Test Scripts Documentation
+# Test Scripts Documentation
 
 ## Overview
-This directory contains test scripts to validate the completion of Phase 1 infrastructure setup for the clean architecture migration.
+This directory contains test scripts to validate the completion of clean architecture migration phases.
 
 ## Files
 
-### `test-phase1.js`
+### Phase 1 Tests (Infrastructure Setup)
+
+#### `test-phase1.js`
 The main test script that validates all Phase 1 requirements:
 - **Directory structure** - Checks all required folders are created
 - **Build configuration** - Validates TypeScript and Vite configs
@@ -14,41 +16,71 @@ The main test script that validates all Phase 1 requirements:
 - **Migration preparation** - Validates feature index files
 - **Build and runtime** - Tests compilation and dev server
 
-### `run-phase1-tests.sh`
+#### `run-phase1-tests.sh`
 A shell script wrapper that:
 - Checks Node.js and npm availability
 - Makes the test script executable
 - Runs tests with proper error handling
 - Provides clear next steps based on results
 
+### Phase 2 Tests (Feature Extraction)
+
+#### `test-phase2.js`
+Comprehensive test script for Phase 2 feature extraction:
+- **Photo Visualization feature** - Components, services, hooks
+- **AI Search feature** - Search logic, components, AI integration
+- **Layout Management feature** - Layout controls and services
+- **Photo Gallery feature** - Gallery components and services
+- **Feature Integration** - App updates and cross-feature communication
+- **Testing & Validation** - Build tests and boundary validation
+
+#### `run-phase2-tests.sh`
+Phase 2 test runner that:
+- Validates Phase 1 prerequisites
+- Runs comprehensive feature extraction tests
+- Provides detailed failure analysis
+- Guides next steps for Phase 3
+
 ### `TEST-README.md`
-This documentation file explaining how to use the test scripts.
+This documentation file explaining how to use all test scripts.
 
 ## Usage
 
-### Quick Start
+### Phase 1 Tests (Infrastructure Setup)
 ```bash
 # Make the runner script executable
 chmod +x run-phase1-tests.sh
 
 # Run all Phase 1 tests
 ./run-phase1-tests.sh
+
+# Or run directly
+node test-phase1.js
 ```
 
-### Manual Execution
+### Phase 2 Tests (Feature Extraction)
 ```bash
-# Run the test script directly
-node test-phase1.js
+# Make the runner script executable
+chmod +x run-phase2-tests.sh
+
+# Run all Phase 2 tests (requires Phase 1 completion)
+./run-phase2-tests.sh
+
+# Or run directly
+node test-phase2.js
 ```
 
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm or yarn
-- All Phase 1 tasks completed (see phase1-backlog.md)
+- Completed previous phases (Phase 1 for Phase 2 tests)
+- All phase-specific tasks completed (see phase*-backlog.md files)
 
 ## Test Categories
 
-### 1. Directory Structure Tests
+### Phase 1: Infrastructure Setup Tests
+
+#### 1. Directory Structure Tests
 Validates the new folder hierarchy:
 ```
 src/
@@ -69,29 +101,71 @@ src/
     └── external/
 ```
 
-### 2. Configuration Tests
+#### 2. Configuration Tests
 Checks that build tools are properly configured:
 - TypeScript path aliases (`@/app/*`, `@/features/*`, etc.)
 - Vite resolve aliases
 - Correct baseUrl setting
 
-### 3. Infrastructure Tests
+#### 3. Infrastructure Tests
 Validates infrastructure layer setup:
 - API abstraction files
 - Storage abstraction files
 - External service interfaces
 
-### 4. Build Tests
+#### 4. Build Tests
 Ensures the application still builds and runs:
 - TypeScript compilation
 - Vite build process
 - Development server startup
 
-### 5. Legacy Compatibility
+#### 5. Legacy Compatibility
 Confirms rollback capability:
 - Original files still exist
 - Package.json unchanged
 - No breaking changes to existing functionality
+
+### Phase 2: Feature Extraction Tests
+
+#### 1. Photo Visualization Feature Tests
+- PhotoVisualization component extracted from PhotoViz.jsx
+- PhotoNode component moved to feature
+- CameraControls component created
+- Visualization services (VisualizationService, CameraService, EffectsService)
+- Visualization hooks (useVisualization, useCamera, useSceneEffects)
+- Proper TypeScript types and feature exports
+
+#### 2. AI Search Feature Tests
+- SearchInput component extracted from App.jsx
+- SearchResults and SearchPresets components
+- Search services (SearchService, AIService, QueryProcessor)
+- Prompts moved from root to feature
+- Search hooks (useSearch, useSearchHistory, useSearchPresets)
+- Feature boundary compliance
+
+#### 3. Layout Management Feature Tests
+- LayoutControls component extracted
+- Layout services (LayoutService, PositionService, AnimationService)
+- Layout hooks (useLayout, useLayoutTransition)
+- Layout switching logic moved from actions.js
+
+#### 4. Photo Gallery Feature Tests
+- PhotoGallery component extracted from Sidebar.jsx
+- PhotoList, PhotoThumbnail, PhotoDetails components
+- Gallery services (GalleryService, PhotoService, FilterService)
+- Gallery hooks (useGallery, usePhotoSelection, usePhotoFilters)
+
+#### 5. Feature Integration Tests
+- App.jsx updated to use feature components
+- Original components removed or properly migrated
+- Actions.js refactored for cross-feature coordination
+- LLM integration moved to infrastructure layer
+
+#### 6. Feature Boundary Tests
+- Features have proper public APIs through index.ts
+- No direct cross-feature imports (loose coupling)
+- Shared utilities properly used
+- Clean separation of concerns
 
 ## Test Output
 
