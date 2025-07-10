@@ -41,6 +41,26 @@ Phase 2 test runner that:
 - Provides detailed failure analysis
 - Guides next steps for Phase 3
 
+### Phase 3 Tests (State Management Refactor)
+
+#### `test-phase3.js`
+Comprehensive test script for Phase 3 state management refactor:
+- **Feature Store Architecture** - Store directories and composition
+- **Photo Visualization Store** - nodePositions, resetCam, xRayMode state
+- **AI Search Store** - isFetching, highlightNodes, caption state
+- **Layout Management Store** - layout, layouts state
+- **Photo Gallery Store** - images, targetImage, isSidebarOpen state
+- **Store Composition** - StoreProvider, cross-feature communication
+- **Migration & Compatibility** - App updates, store deprecation
+- **Performance & Optimization** - Memoization, selective subscriptions
+
+#### `run-phase3-tests.sh`
+Phase 3 test runner that:
+- Validates Phase 1 and 2 prerequisites
+- Runs comprehensive state management tests
+- Provides detailed store implementation guidance
+- Guides next steps for Phase 4
+
 ### `TEST-README.md`
 This documentation file explaining how to use all test scripts.
 
@@ -70,10 +90,22 @@ chmod +x run-phase2-tests.sh
 node test-phase2.js
 ```
 
+### Phase 3 Tests (State Management Refactor)
+```bash
+# Make the runner script executable
+chmod +x run-phase3-tests.sh
+
+# Run all Phase 3 tests (requires Phase 1 & 2 completion)
+./run-phase3-tests.sh
+
+# Or run directly
+node test-phase3.js
+```
+
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm or yarn
-- Completed previous phases (Phase 1 for Phase 2 tests)
+- Completed previous phases (Phase 1 & 2 for Phase 3 tests)
 - All phase-specific tasks completed (see phase*-backlog.md files)
 
 ## Test Categories
