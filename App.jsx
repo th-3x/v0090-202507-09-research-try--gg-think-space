@@ -5,6 +5,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import c from "clsx";
 import PhotoViz from "./PhotoViz";
+import PhotoVizClean from "./PhotoViz-Clean";
+
 import useStore from "./store";
 import Sidebar from "./Sidebar";
 
@@ -34,6 +36,7 @@ export default function App() {
   const canGoBack = useStore.use.canGoBack();
   const [value, setValue] = useState("");
   const [searchPresetIdx, setSearchPresetIdx] = useState(0)
+  const [activeTab, setActiveTab] = useState("clean"); // Tab state
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -53,7 +56,25 @@ export default function App() {
 
   return (
     <main>
-      <PhotoViz />
+      {/* Tab Navigation */}
+      <div className="tab-navigation">
+        <button
+          onClick={() => setActiveTab("clean")}
+          className={c("tab-button", { active: activeTab === "clean" })}
+        >
+          Clean Architecture
+        </button>
+        <button
+          onClick={() => setActiveTab("original")}
+          className={c("tab-button", { active: activeTab === "original" })}
+        >
+          Original
+        </button>
+      </div>
+
+      {/* Render active PhotoViz component */}
+      {activeTab === "clean" ? <PhotoVizClean /> : <PhotoViz />}
+      
       <Sidebar />
       <footer>
         <div className="caption">

@@ -12,7 +12,8 @@ import { animate } from "motion";
 const aspectRatio = 16 / 16;
 const thumbHeight = 16;
 const thumbWidth = thumbHeight * aspectRatio;
-const storageRoot = 'https://www.gstatic.com/aistudio/starter-apps/photosphere/'
+// const storageRoot = 'https://www.gstatic.com/aistudio/starter-apps/photosphere/'
+const storageRoot = 'https://placehold.co/10x10#'
 
 export default function PhotoNode({
   id,

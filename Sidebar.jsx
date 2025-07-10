@@ -36,7 +36,8 @@ const Sidebar = () => {
         {images?.map((image) => (
           <li key={image.id} onClick={() => setTargetImage(image.id)}>
             <img
-              src={`https://www.gstatic.com/aistudio/starter-apps/photosphere/${image.id}`}
+              // src={`https://www.gstatic.com/aistudio/starter-apps/photosphere/${image.id}`}
+              src={`https://placehold.co/10x10#`}
               alt={truncateDescription(image.description, 3)}
               className="thumbnail"
             />
